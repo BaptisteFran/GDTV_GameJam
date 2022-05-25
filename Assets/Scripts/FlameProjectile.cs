@@ -34,7 +34,6 @@ public class FlameProjectile : MonoBehaviour
             Destroy(gameObject);
         }
         Destroy(gameObject);
-
     }
 
     void FlipSprite()

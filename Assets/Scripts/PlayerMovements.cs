@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerMovements : MonoBehaviour
 {
@@ -12,35 +13,49 @@ public class PlayerMovements : MonoBehaviour
     Vector2 moveInput;
     Rigidbody2D rb;
     Transform player;
+    ScenePersist scenePersist;
+
     [SerializeField] float speed = 2f;
     [SerializeField] GameObject fireBall;
     [SerializeField] Transform wand;
-    public int health;
-    public int playerDamage;
     [SerializeField] GameObject deathUI;
     [SerializeField] GameObject mainUI;
-    [SerializeField] GameObject[] hearts;
-    bool isDead;
-    //Enemy enemy;
+    [SerializeField] GameObject shopUI;
+    [SerializeField] TextMeshProUGUI scoreUI;
+    [SerializeField] TextMeshProUGUI goldUI;
+    [SerializeField] TextMeshProUGUI healthUI;
+    [SerializeField] TextMeshProUGUI damageUI;
 
-    // INSTANCE
-    public static PlayerMovements Instance;
+    public bool isDead;
+    bool displayShop;
+    
+    public int health;
+    public int maxPlayerHealth;
+    public HealthBar healthBar;
 
     private void Awake()
     {
-        Instance = this;
+        scenePersist = FindObjectOfType<ScenePersist>();
+        if (scenePersist.playerDamage > 0 && scenePersist.maxHealth > 0)
+        {
+            UpdateUI();
+        }
     }
 
 
     void Start()
     {
-        //enemy = Enemy.Instance;
         deathUI.GetComponent<Canvas>();
-        deathUI.SetActive(false);
-        health = 3;
-        isDead = false;
         rb = GetComponent<Rigidbody2D>();
         player = GetComponent<Transform>();
+
+        maxPlayerHealth = scenePersist.maxHealth;
+        health = scenePersist.maxHealth;
+        healthBar.SetMaxHealth(maxPlayerHealth);
+        deathUI.SetActive(false);
+        shopUI.SetActive(false);
+        displayShop = false;
+        isDead = false;
     }
 
     void Update()
@@ -51,6 +66,8 @@ public class PlayerMovements : MonoBehaviour
             Run();
             FlipSprite();
         }
+        UpdateUI();
+        DisplayShop();
     }
 
     void OnMove(InputValue value)
@@ -83,10 +100,10 @@ public class PlayerMovements : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy")
+        if(collision.tag == "Enemy" && !isDead)
         {
             health -= 1;
-            hearts[health].SetActive(false);
+            healthBar.SetHealth(health);
         }
     }
 
@@ -101,5 +118,60 @@ public class PlayerMovements : MonoBehaviour
         {
             isDead = false;
         }
+    }
+
+    void DisplayShop()
+    {
+        if (isDead == true && displayShop == true)
+        {
+            deathUI.SetActive(false);
+            shopUI.SetActive(true);
+        }
+    }
+
+    public void ActivateShop()
+    {
+        displayShop = true;
+    }
+
+    void UpdateUI()
+    {
+        scoreUI.text = scenePersist.score.ToString();
+        goldUI.text = scenePersist.gold.ToString();
+        healthUI.text = scenePersist.maxHealth.ToString();
+        damageUI.text = scenePersist.playerDamage.ToString();
+    }
+
+
+    public void UpgradeHealth()
+    {
+        int amountRequired = scenePersist.maxHealth * 10;
+        if (scenePersist.maxHealth >= 10) {
+            amountRequired = scenePersist.maxHealth * 5;
+        }
+        if (scenePersist.gold >= amountRequired)
+        {
+            scenePersist.maxHealth += 1;
+            scenePersist.gold -= amountRequired;
+        }
+    }
+
+    public void UpgradeDamage()
+    {
+        int amountRequired = scenePersist.playerDamage * 30;
+        if(scenePersist.playerDamage >= 10)
+        {
+            amountRequired = scenePersist.playerDamage * 10;
+        }
+        if (scenePersist.gold >= amountRequired)
+        {
+            scenePersist.playerDamage += 1;
+            scenePersist.gold -= amountRequired;
+        }
+    }
+
+    public void RevivePlayer()
+    {
+        SceneManager.LoadScene("GameScene");
     }
 }

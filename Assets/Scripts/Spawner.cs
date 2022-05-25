@@ -74,6 +74,8 @@ public class Spawner : MonoBehaviour
         if(player.health <= 0)
         {
             continueCoroutine = false;
+            enemy.health = 1;
+            enemy.damages = 1;
         }
     }
 }

@@ -7,19 +7,18 @@ public class Enemy : MonoBehaviour
 {
     public int health;
     public int damages;
-    PlayerMovements player;
+    ScenePersist player;
 
 
     private void Start()
     {
-        player = FindObjectOfType<PlayerMovements>();
+        player = FindObjectOfType<ScenePersist>();
     }
 
     // Update is called once per frame
     void Update()
     {
         IsEnemyDead();
-        // Debug.Log("Player's damages : " + player.playerDamage);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,6 +34,8 @@ public class Enemy : MonoBehaviour
         if(health <= 0)
         {
             Destroy(gameObject);
+            player.score += 10;
+            player.gold += Random.Range(1, 10);
         }
     }
 }
