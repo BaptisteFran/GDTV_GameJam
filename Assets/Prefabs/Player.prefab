@@ -152,6 +152,9 @@ MonoBehaviour:
   speed: 5
   fireBall: {fileID: 7446066055483331391, guid: a753a8a800621584084a66ae79e769e2, type: 3}
   wand: {fileID: 352526364}
+  health: 3
+  playerDamage: 1
+  deathUI: {fileID: 0}
 --- !u!114 &5096497071753421295
 MonoBehaviour:
   m_ObjectHideFlags: 0

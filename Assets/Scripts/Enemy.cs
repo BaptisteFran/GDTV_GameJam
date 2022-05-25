@@ -5,19 +5,36 @@ using Pathfinding;
 
 public class Enemy : MonoBehaviour
 {
-    
-    public AIPath aiPath;
+    public int health;
+    public int damages;
+    PlayerMovements player;
+
+
+    private void Start()
+    {
+        player = FindObjectOfType<PlayerMovements>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if(aiPath.desiredVelocity.x >= 0.01f)
+        IsEnemyDead();
+        // Debug.Log("Player's damages : " + player.playerDamage);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "fireBall")
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            health -= player.playerDamage;
         }
-        else if (aiPath.desiredVelocity.x <= -0.01f)
+    }
+
+    void IsEnemyDead()
+    {
+        if(health <= 0)
         {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+            Destroy(gameObject);
         }
     }
 }

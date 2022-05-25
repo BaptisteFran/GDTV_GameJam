@@ -8,6 +8,7 @@ public class FlameProjectile : MonoBehaviour
     [SerializeField] float bulletSpeed = 20f;
     Rigidbody2D rb;
     float xSpeed;
+
     // ref to the player
     PlayerMovements player;
 
@@ -30,7 +31,6 @@ public class FlameProjectile : MonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
-            Destroy(collision.gameObject);
             Destroy(gameObject);
         }
         Destroy(gameObject);

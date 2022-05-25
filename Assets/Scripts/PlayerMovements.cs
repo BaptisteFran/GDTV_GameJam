@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovements : MonoBehaviour
 {
@@ -13,17 +15,42 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] float speed = 2f;
     [SerializeField] GameObject fireBall;
     [SerializeField] Transform wand;
+    public int health;
+    public int playerDamage;
+    [SerializeField] GameObject deathUI;
+    [SerializeField] GameObject mainUI;
+    [SerializeField] GameObject[] hearts;
+    bool isDead;
+    //Enemy enemy;
+
+    // INSTANCE
+    public static PlayerMovements Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
 
     void Start()
     {
+        //enemy = Enemy.Instance;
+        deathUI.GetComponent<Canvas>();
+        deathUI.SetActive(false);
+        health = 3;
+        isDead = false;
         rb = GetComponent<Rigidbody2D>();
         player = GetComponent<Transform>();
     }
 
     void Update()
     {
-        Run();
-        FlipSprite();
+        IsPlayerDead();
+        if (!isDead)
+        {
+            Run();
+            FlipSprite();
+        }
     }
 
     void OnMove(InputValue value)
@@ -48,9 +75,31 @@ public class PlayerMovements : MonoBehaviour
 
     void OnFire(InputValue value)
     {
-        if (value.isPressed)
+        if (value.isPressed && !isDead)
         {
             Instantiate(fireBall, wand.position, transform.rotation);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Enemy")
+        {
+            health -= 1;
+            hearts[health].SetActive(false);
+        }
+    }
+
+    void IsPlayerDead()
+    {
+        if(health <= 0)
+        {
+            isDead = true;
+            mainUI.SetActive(false);
+            deathUI.SetActive(true);
+        } else
+        {
+            isDead = false;
         }
     }
 }

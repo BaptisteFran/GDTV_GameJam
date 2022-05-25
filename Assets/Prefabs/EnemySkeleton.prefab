@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4491957567337160920}
   - component: {fileID: 4491957567337160925}
-  - component: {fileID: 4491957567337160924}
   m_Layer: 0
   m_Name: SkeletonGFX
   m_TagString: Untagged
@@ -85,19 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4491957567337160924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4491957567337160921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1ba0cf508317d74896540de6c93c8f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aiPath: {fileID: 4491957568160436022}
 --- !u!1 &4491957568160436020
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,6 +99,7 @@ GameObject:
   - component: {fileID: 4491957568160436043}
   - component: {fileID: 1985904387}
   - component: {fileID: 8238994727627823808}
+  - component: {fileID: 6253961389989554615}
   m_Layer: 0
   m_Name: EnemySkeleton
   m_TagString: Enemy
@@ -231,7 +218,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -247,10 +234,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.032553494, y: 0.0020346045}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -261,7 +248,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.1302141, y: 1.0610378}
   m_EdgeRadius: 0
 --- !u!50 &8238994727627823808
 Rigidbody2D:
@@ -284,3 +271,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &6253961389989554615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4491957568160436020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ba0cf508317d74896540de6c93c8f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1
+  damages: 1
